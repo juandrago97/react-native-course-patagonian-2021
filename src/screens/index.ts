@@ -1,5 +1,4 @@
 export { default as BookDetailsScreen } from './BookDetails';
-export { default as ExperimentalScreen } from './Experimental';
+export { default as BookListScreen } from './BookList';
+export { default as CharacterListScreen } from './CharacterList';
 export { default as HistoryScreen } from './History';
-export { default as HomeScreen } from './Home';
-export { default as WelcomeScreen } from './Welcome';

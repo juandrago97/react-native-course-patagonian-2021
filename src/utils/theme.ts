@@ -1,6 +1,5 @@
 export const colors = {
-  black: '#000000',
-  lightBlue: '#ABCDEF',
-  mainOrange: '#FF7F50',
-  white: '#FFFFFF',
+  primaryRed: '#7F0909',
+  strongPrimaryRed: '#660808',
+  primaryYellow: '#FFC500',
 };
