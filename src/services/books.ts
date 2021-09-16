@@ -1,4 +1,4 @@
-import { bookDetailEndpoint, booksEndpoint } from './endpoints';
+import { bookDetailEndpoint, booksEndpoint, booksByNameEndpoint } from './endpoints';
 
 export const getAllBooks = async () => {
   try {
@@ -39,6 +39,29 @@ export const getBookById = async (id: number) => {
     return serviceResponse;
   } catch (error) {
     console.log(`Error fetching book with id: ${id}`, error);
+    return {
+      success: false,
+      data: error,
+    };
+  }
+};
+
+export const getBooksByName = async (name: string) => {
+  try {
+    let serviceResponse;
+
+    const response = await fetch(booksByNameEndpoint(name));
+    const parsedResponse = await response.json();
+
+    if (response.status === 200) {
+      serviceResponse = { success: true, data: parsedResponse };
+    } else {
+      serviceResponse = { success: false, data: parsedResponse };
+    }
+
+    return serviceResponse;
+  } catch (error) {
+    console.log(`Error fetching book with name: ${name}`, error);
     return {
       success: false,
       data: error,

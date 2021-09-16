@@ -5,3 +5,5 @@ export { default as Separator } from './Separator';
 export { default as Typography } from './Typography';
 export { default as CardList } from './CardList';
 export { default as ItemCard } from './ItemCard';
+export { default as SearchBar } from './SearchBar';
+export { default as SectionTitle } from './SectionTitle';

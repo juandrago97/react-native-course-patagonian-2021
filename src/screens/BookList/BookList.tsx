@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { Header, CardList } from '../../components';
-import { getAllBooks } from '../../services';
+import { Header, CardList, SearchBar, SectionTitle } from '../../components';
+import { getAllBooks, getBooksByName } from '../../services';
 
 const BooksToCardListParameters = (books) => {
   return books.map((book) => {
@@ -34,6 +34,22 @@ const BookList = () => {
     }
   };
 
+  const getBooksName = async (name: string) => {
+    //setLoading(true);
+    try {
+      const { success, data } = await getBooksByName(name);
+      if (success) {
+        setBooks(data);
+      } else {
+        console.log('Error getting book information.');
+      }
+    } catch (error) {
+      console.log('Error getting book information', error);
+    } finally {
+      //setLoading(false);
+    }
+  };
+
   useEffect(() => {
     getBooksData();
   }, []);
@@ -51,6 +67,8 @@ const BookList = () => {
     return (
       <View style={styles.body}>
         <Header />
+        <SearchBar onChange={getBooksName} />
+        <SectionTitle />
         <View style={styles.cardListContainer}>
           <CardList data={BooksToCardListParameters(books)} />
         </View>
@@ -69,7 +87,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 21,
     marginHorizontal: 20,
-    marginBottom: 220,
+    marginBottom: 420,
   },
   wholeScreenCenter: {
     flex: 1,
