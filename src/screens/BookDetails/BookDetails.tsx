@@ -21,11 +21,11 @@ const BookDetailsScreen = ({ route }) => {
       if (success) {
         setBook(data);
       } else {
-        Alert.alert(`Error getting the details of the book: ${title}`);
+        Alert.alert('Error getting the details of the book');
       }
     } catch (error) {
       console.log(`Error getting book with id: ${id} in BookDetailsScreen`, error);
-      Alert.alert(`Error getting the details of the book: ${title}`);
+      Alert.alert('Error getting the details of the book');
     } finally {
       setLoading(false);
     }
@@ -48,7 +48,7 @@ const BookDetailsScreen = ({ route }) => {
 
   return (
     <>
-      <Header title={title} />
+      <Header title={ title } />
       <View style={styles.mainContainer}>
         <Typography size={18}>Book Detail Screen</Typography>
         <Separator />

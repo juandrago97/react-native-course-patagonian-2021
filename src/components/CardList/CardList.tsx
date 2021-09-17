@@ -1,17 +1,15 @@
 import React from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
-import { ItemCard, Separator } from '..';
-export type Props = {
-  data: {
-    title: string;
-    image: string;
-  };
-};
+import { ItemCard } from '..';
 
+export type Props = {
+  data: [];
+};
+//@ts-ignore
 const renderItem = ({ item }) => {
   return (
     <View style={styles.card}>
-      <ItemCard title={item.title} image={item.image} />
+      <ItemCard title={item.title} image={item.image} onPress={item.onPress} />
     </View>
   );
 };
