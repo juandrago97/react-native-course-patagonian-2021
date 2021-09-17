@@ -3,11 +3,15 @@ import { View, StyleSheet } from 'react-native';
 import { colors } from '../../utils/theme';
 import { Typography } from '..';
 
-const SectionTitle = () => {
+interface Props {
+  text: string;
+}
+
+const SectionSubtitle = (props: Props) => {
   return (
     <View style={styles.sectionTitle}>
-      <Typography align="center" color={colors.primaryRed} variant='bold' size={25}>
-        BOOKS
+      <Typography align="center" color={colors.primaryRed} variant="bold" size={25}>
+        {props.text}
       </Typography>
     </View>
   );
@@ -19,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SectionTitle;
+export default SectionSubtitle;

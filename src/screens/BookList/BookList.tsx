@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { Header, CardList, SearchBar, SectionTitle } from '../../components';
+import { Header, CardList, SearchBar, SectionSubtitle } from '../../components';
 import { getAllBooks, getBooksByName } from '../../services';
 
 const BooksToCardListParameters = (books) => {
@@ -68,7 +68,7 @@ const BookList = () => {
       <View style={styles.body}>
         <Header />
         <SearchBar onChange={getBooksName} />
-        <SectionTitle />
+        <SectionSubtitle text="BOOKS" />
         <View style={styles.cardListContainer}>
           <CardList data={BooksToCardListParameters(books)} />
         </View>
