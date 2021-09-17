@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, StyleSheet, View } from 'react-native';
 
-import { Header, Separator, Typography } from '../../components';
+import { Header, Separator, Typography, SectionTitle } from '../../components';
 import { getBookById } from '../../services';
-
-import styles from './styles';
 import { colors } from '../../utils/theme';
 
 // @ts-ignore
@@ -19,7 +17,7 @@ const BookDetailsScreen = (/*{ route }*/) => {
     try {
       const { success, data } = await getBookById(id);
       if (success) {
-        setBook(data);
+        setBook(data[0]);
       } else {
         Alert.alert(`Error getting the details of the book: ${id}`);
       }
@@ -39,23 +37,61 @@ const BookDetailsScreen = (/*{ route }*/) => {
     return (
       <>
         <Header />
-        <View style={styles.wholeScreenCenter}>
+        <View>
           <ActivityIndicator size="large" color={colors.primaryRed} />
         </View>
       </>
     );
+  } else {
+    return (
+      <>
+        <Header />
+        <SectionTitle text={book.title} />
+        <View style={styles.row}>
+          <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
+          <LabelValueList labelValueArray={[{ label: 'Hola', value: 'Mundo' }]} />
+        </View>
+      </>
+    );
   }
+};
 
+interface Props {
+  labelValueArray: [
+    {
+      label: string;
+      value: string;
+    },
+  ];
+}
+const LabelValueList = (props: Props) => {
   return (
-    <>
-      <Header />
-      <View style={styles.mainContainer}>
-        <Typography size={18}>Book Detail Screen</Typography>
-        <Separator />
-        <Typography>{JSON.stringify(book, null, 2)}</Typography>
-      </View>
-    </>
+    <View style={styles.detailList}>
+      {props.labelValueArray.map((labelValuePair) => {
+        return (
+          <View style={styles.row}>
+            <Typography variant="bold">{`${labelValuePair.label}: `}</Typography>
+            <Typography>{labelValuePair.value}</Typography>
+          </View>
+        );
+      })}
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  bookCover: {
+    width: '50%',
+    height: 400,
+    borderRadius: 30,
+  },
+  detailList: {
+    flex: 1,
+  },
+});
 
 export default BookDetailsScreen;

@@ -3,7 +3,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import { RouteProp } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import { HistoryScreen, BookListScreen, CharacterListScreen } from '../screens';
+import { HistoryScreen, BookDetailsScreen, CharacterListScreen } from '../screens';
 import { colors } from '../utils/theme';
 
 type Route = RouteProp<Record<string, object | undefined>, string>;
@@ -48,9 +48,10 @@ const navigatorScreenOptions = ({ route }: { route: Route }) => ({
 });
 
 const TabNavigator = () => {
+  //<Tab.Screen name="BooksTab" component={BookListScreen} options={{ title: 'Books' }} />
   return (
     <Tab.Navigator screenOptions={navigatorScreenOptions}>
-      <Tab.Screen name="BooksTab" component={BookListScreen} options={{ title: 'Books' }} />
+      <Tab.Screen name="BooksTab" component={BookDetailsScreen} options={{ title: 'Books' }} />
       <Tab.Screen
         name="CharactersTab"
         component={CharacterListScreen}

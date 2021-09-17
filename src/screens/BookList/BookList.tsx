@@ -35,7 +35,7 @@ const BookList = () => {
   };
 
   const getBooksName = async (name: string) => {
-    //setLoading(true);
+    setLoading(true);
     try {
       const { success, data } = await getBooksByName(name);
       if (success) {
@@ -46,7 +46,7 @@ const BookList = () => {
     } catch (error) {
       console.log('Error getting book information', error);
     } finally {
-      //setLoading(false);
+      setLoading(false);
     }
   };
 
