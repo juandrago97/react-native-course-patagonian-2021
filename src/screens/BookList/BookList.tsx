@@ -59,27 +59,22 @@ const BookList = () => {
     getBooksData();
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <Header />
+  return (
+    <View style={styles.body}>
+      <Header />
+      <SearchBar onChange={getBooksName} />
+      <SectionSubtitle text="BOOKS" />
+      {loading ? (
         <View style={styles.wholeScreenCenter}>
           <ActivityIndicator size="large" />
         </View>
-      </>
-    );
-  } else {
-    return (
-      <View style={styles.body}>
-        <Header />
-        <SearchBar onChange={getBooksName} />
-        <SectionSubtitle text="BOOKS" />
+      ) : (
         <View style={styles.cardListContainer}>
           <CardList data={BooksToCardListParameters(books)} numberOfColumns={2} />
         </View>
-      </View>
-    );
-  }
+      )}
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({

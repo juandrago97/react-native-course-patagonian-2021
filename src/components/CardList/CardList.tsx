@@ -22,7 +22,7 @@ const CardList = (props: Props) => {
   const renderItem = ({ item }) => {
     return (
       <View style={getCardStyle(props.numberOfColumns ? props.numberOfColumns : 1)}>
-        <ItemCard title={item.title} image={item.image} />
+        <ItemCard title={item.title} image={item.image} onPress={item.onPress} />
       </View>
     );
   };

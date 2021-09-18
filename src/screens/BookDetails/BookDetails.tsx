@@ -20,8 +20,8 @@ import { getBookById } from '../../services';
 import { colors } from '../../utils/theme';
 
 // @ts-ignore
-const BookDetailsScreen = (/*{ route }*/ id: number, books: book[]) => {
-  //const { id } = route.params;
+const BookDetailsScreen = ({ route }) => {
+  const { id } = route.params;
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -80,7 +80,12 @@ const BookDetailsScreen = (/*{ route }*/ id: number, books: book[]) => {
             <Typography variant="bold">Other Books</Typography>
             <Separator />
             <FlatList
-              data={}
+              data={[
+                {
+                  title: "hola",
+                  image: 'algo',
+                }
+              ]}
               horizontal={true}
               renderItem={({ item }) => (
                 <View style={styles.recommendedBookItem}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { colors } from '../../utils/theme';
 
@@ -7,7 +7,6 @@ interface Props {
 }
 
 const SearchBar = (props: Props) => {
-  //const [textContent, setTextContent] = useState('');
   return (
     <View style={styles.searchBarContainer}>
       <TextInput
