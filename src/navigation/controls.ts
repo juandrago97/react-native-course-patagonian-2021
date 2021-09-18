@@ -7,6 +7,7 @@ import {
 export const navigationRef = createNavigationContainerRef();
 
 export function goToScreen(name: string, params: object = {}) {
+  console.log('goto');
   if (navigationRef.isReady()) {
     navigationRef.dispatch(CommonActions.navigate(name, params));
   }

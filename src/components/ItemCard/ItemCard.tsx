@@ -1,10 +1,12 @@
 import React from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import Typography from '../Typography';
+import DefaultButton from '../DefaultButton';
 
 interface Props {
   title: string;
   image: string;
+  onPress: () => void;
 }
 
 const ItemCard = (props: Props) => {
@@ -14,6 +16,7 @@ const ItemCard = (props: Props) => {
       <View style={styles.cardText}>
         <Typography>{props.title}</Typography>
       </View>
+      <DefaultButton text="Ver más" onPress={props.onPress} />
     </View>
   );
 };

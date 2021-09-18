@@ -32,11 +32,11 @@ const BookDetailsScreen = (/*{ route }*/ id: number, books: book[]) => {
       if (success) {
         setBook(data[0]);
       } else {
-        Alert.alert(`Error getting the details of the book: ${id}`);
+        Alert.alert('Error getting the details of the book');
       }
     } catch (error) {
       console.log(`Error getting book with id: ${id} in BookDetailsScreen`, error);
-      Alert.alert(`Error getting the details of the book: ${id}`);
+      Alert.alert('Error getting the details of the book');
     } finally {
       setLoading(false);
     }

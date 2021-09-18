@@ -3,12 +3,17 @@ import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
 import { Header, CardList, SearchBar, SectionSubtitle } from '../../components';
 import { getAllBooks, getBooksByName } from '../../services';
 
+import { goToScreen } from '../../navigation/controls';
+
+//@ts-ignore
 const BooksToCardListParameters = (books) => {
+  //@ts-ignore
   return books.map((book) => {
     return {
       id: book.id,
       title: book.title,
       image: book.book_covers[0].URL,
+      onPress: () => goToScreen('BookDetails', { id: book.id, title: book.title }),
     };
   });
 };
