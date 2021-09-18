@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Typography from '../Typography';
 import DefaultButton from '../DefaultButton';
 
@@ -11,13 +11,12 @@ interface Props {
 
 const ItemCard = (props: Props) => {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={props.onPress}>
       <Image style={styles.cardImage} source={{ uri: props.image }} />
       <View style={styles.cardText}>
         <Typography>{props.title}</Typography>
       </View>
-      <DefaultButton text="Ver más" onPress={props.onPress} />
-    </View>
+    </TouchableOpacity>
   );
 };
 
