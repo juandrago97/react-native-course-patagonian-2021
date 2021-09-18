@@ -1,7 +1,6 @@
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import Typography from '../Typography';
-import DefaultButton from '../DefaultButton';
 
 interface Props {
   title: string;
