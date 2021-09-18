@@ -1,14 +1,27 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert, Image, StyleSheet, View } from 'react-native';
-
-import { Header, Separator, Typography, SectionTitle } from '../../components';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
+import {
+  Header,
+  Separator,
+  Typography,
+  SectionTitle,
+  LabelValueList,
+  DescriptionCard,
+} from '../../components';
 import { getBookById } from '../../services';
 import { colors } from '../../utils/theme';
 
 // @ts-ignore
-const BookDetailsScreen = (/*{ route }*/) => {
+const BookDetailsScreen = (/*{ route }*/ id: number, books: book[]) => {
   //const { id } = route.params;
-  const id = 2;
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -46,37 +59,60 @@ const BookDetailsScreen = (/*{ route }*/) => {
     return (
       <>
         <Header />
-        <SectionTitle text={book.title} />
-        <View style={styles.row}>
-          <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
-          <LabelValueList labelValueArray={[{ label: 'Hola', value: 'Mundo' }]} />
-        </View>
+        <ScrollView>
+          <View style={styles.sectionContent}>
+            <SectionTitle text={book.title} />
+            <View style={styles.row}>
+              <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
+              <View style={{ marginLeft: 13 }}>
+                <LabelValueList labelValueArray={generateLabelValueArrayFromBook(book)} />
+              </View>
+            </View>
+            <Separator />
+            <DescriptionCard>
+              <Typography size={12}>
+                {
+                  'Sinposis: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra erat non ligula auctor accumsan. Donec placerat urna ac nibh luctus tincidunt. Integer commodo justo eget hendrerit lacinia. Sed id neque porta, rhoncus odio quis, ornare lacus. Cras iaculis massa eget molestie mattis. Curabitur in mauris tortor. Cras et commodo magna. Integer vel vehicula massa, tempor consequat nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                }
+              </Typography>
+            </DescriptionCard>
+            <Separator size={12} />
+            <Typography variant="bold">Other Books</Typography>
+            <Separator />
+            <FlatList
+              data={}
+              horizontal={true}
+              renderItem={({ item }) => (
+                <View style={styles.recommendedBookItem}>
+                  <Image style={styles.bookThumbnail} source={{ uri: item.image }} />
+                  <Typography align="center">{item.title}</Typography>
+                </View>
+              )}
+            />
+          </View>
+        </ScrollView>
       </>
     );
   }
 };
 
-interface Props {
-  labelValueArray: [
+// @ts-ignore
+
+const generateLabelValueArrayFromBook = (book: any): [{ label: string; value: string }] => {
+  return [
     {
-      label: string;
-      value: string;
+      label: 'Author',
+      value: book.author,
+    },
+    {
+      label: 'Publish Date',
+      value: book.publish_date[0].UK,
+    },
+    {
+      label: 'Plot take-place years',
+      value: `${book.plot_take_place_years[0]} - ${book.plot_take_place_years[1]}`,
     },
   ];
-}
-const LabelValueList = (props: Props) => {
-  return (
-    <View style={styles.detailList}>
-      {props.labelValueArray.map((labelValuePair) => {
-        return (
-          <View style={styles.row}>
-            <Typography variant="bold">{`${labelValuePair.label}: `}</Typography>
-            <Typography>{labelValuePair.value}</Typography>
-          </View>
-        );
-      })}
-    </View>
-  );
 };
 
 const styles = StyleSheet.create({
@@ -85,12 +121,20 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   bookCover: {
-    width: '50%',
-    height: 400,
+    width: 178,
+    height: 278,
     borderRadius: 30,
   },
-  detailList: {
-    flex: 1,
+  sectionContent: {
+    paddingHorizontal: 20,
+  },
+  bookThumbnail: {
+    width: 90,
+    height: 90,
+    borderRadius: 30,
+  },
+  recommendedBookItem: {
+    marginHorizontal: 8,
   },
 });
 

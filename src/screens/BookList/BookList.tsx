@@ -70,7 +70,7 @@ const BookList = () => {
         <SearchBar onChange={getBooksName} />
         <SectionSubtitle text="BOOKS" />
         <View style={styles.cardListContainer}>
-          <CardList data={BooksToCardListParameters(books)} />
+          <CardList data={BooksToCardListParameters(books)} numberOfColumns={2} />
         </View>
       </View>
     );

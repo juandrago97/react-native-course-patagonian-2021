@@ -8,3 +8,5 @@ export { default as ItemCard } from './ItemCard';
 export { default as SearchBar } from './SearchBar';
 export { default as SectionSubtitle } from './SectionSubtitle';
 export { default as SectionTitle } from './SectionTitle';
+export { default as DescriptionCard } from './DescriptionCard';
+export { default as LabelValueList } from './LabelValueList';
