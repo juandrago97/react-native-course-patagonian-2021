@@ -116,7 +116,7 @@ const BookDetailsScreen = ({ route }) => {
 
 // @ts-ignore
 
-const generateLabelValueArrayFromBook = (book: any): [{ label: string; value: string }] => {
+const generateLabelValueArrayFromBook = (book: Book): { label: string; value: string }[] => {
   return [
     {
       label: 'Author',
@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
   },
   sectionContent: {
     paddingHorizontal: 20,
-    paddingTop: 20,
   },
   bookThumbnail: {
     width: 90,

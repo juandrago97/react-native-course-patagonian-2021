@@ -9,12 +9,10 @@ export type labelValuePair = {
 };
 
 interface Props {
-  labelValueArray: [
-    {
-      label: string;
-      value: string;
-    },
-  ];
+  labelValueArray: {
+    label: string;
+    value: string;
+  }[];
 }
 const LabelValueList = (props: Props) => {
   return (

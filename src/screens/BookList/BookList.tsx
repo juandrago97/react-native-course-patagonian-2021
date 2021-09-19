@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#F9F9F9',
     borderRadius: 30,
     paddingHorizontal: 18,
-    paddingTop: 21,
+    paddingTop: 20,
     marginHorizontal: 20,
-    marginBottom: 420,
+    marginBottom: 350,
   },
   wholeScreenCenter: {
     flex: 1,
