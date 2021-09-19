@@ -7,6 +7,7 @@ import {
   ScrollView,
   StyleSheet,
   View,
+  TouchableOpacity,
 } from 'react-native';
 import {
   Header,
@@ -16,14 +17,16 @@ import {
   LabelValueList,
   DescriptionCard,
 } from '../../components';
-import { getBookById } from '../../services';
+import { getBookById, getAllBooks } from '../../services';
 import { colors } from '../../utils/theme';
+import { goToSameScreen } from '../../navigation/controls';
 
 // @ts-ignore
 const BookDetailsScreen = ({ route }) => {
   const { id } = route.params;
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [recommendedBooks, setRecommendedBooks] = useState<Book[] | null>([]);
 
   const getBooksData = async () => {
     setLoading(true);
@@ -31,6 +34,10 @@ const BookDetailsScreen = ({ route }) => {
       const { success, data } = await getBookById(id);
       if (success) {
         setBook(data[0]);
+        const recommendedBooksResponse = await getAllBooks();
+        if (recommendedBooksResponse.success) {
+          setRecommendedBooks(recommendedBooksResponse.data);
+        }
       } else {
         Alert.alert('Error getting the details of the book');
       }
@@ -46,7 +53,7 @@ const BookDetailsScreen = ({ route }) => {
     getBooksData();
   }, []);
 
-  if (loading) {
+  if (loading || !book) {
     return (
       <>
         <Header />
@@ -59,42 +66,48 @@ const BookDetailsScreen = ({ route }) => {
     return (
       <>
         <Header />
-        <ScrollView>
-          <View style={styles.sectionContent}>
-            <SectionTitle text={book.title} />
-            <View style={styles.row}>
-              <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
-              <View style={{ marginLeft: 13 }}>
-                <LabelValueList labelValueArray={generateLabelValueArrayFromBook(book)} />
-              </View>
+        <ScrollView style={styles.sectionContent}>
+          <SectionTitle text={book.title} />
+          <View style={styles.row}>
+            <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
+            <View style={{ marginLeft: 13 }}>
+              <LabelValueList labelValueArray={generateLabelValueArrayFromBook(book)} />
             </View>
-            <Separator />
-            <DescriptionCard>
-              <Typography size={12}>
-                {
-                  'Sinposis: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra erat non ligula auctor accumsan. Donec placerat urna ac nibh luctus tincidunt. Integer commodo justo eget hendrerit lacinia. Sed id neque porta, rhoncus odio quis, ornare lacus. Cras iaculis massa eget molestie mattis. Curabitur in mauris tortor. Cras et commodo magna. Integer vel vehicula massa, tempor consequat nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-                }
-              </Typography>
-            </DescriptionCard>
-            <Separator size={12} />
-            <Typography variant="bold">Other Books</Typography>
-            <Separator />
+          </View>
+          <Separator />
+          <DescriptionCard>
+            <Typography size={12}>
+              {
+                'Sinposis: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra erat non ligula auctor accumsan. Donec placerat urna ac nibh luctus tincidunt. Integer commodo justo eget hendrerit lacinia. Sed id neque porta, rhoncus odio quis, ornare lacus. Cras iaculis massa eget molestie mattis. Curabitur in mauris tortor. Cras et commodo magna. Integer vel vehicula massa, tempor consequat nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+              }
+            </Typography>
+          </DescriptionCard>
+          <Separator size={12} />
+          <Typography variant="bold">Other Books</Typography>
+          <Separator />
+          {recommendedBooks && (
             <FlatList
-              data={[
-                {
-                  title: "hola",
-                  image: 'algo',
-                }
-              ]}
+              data={recommendedBooks?.map((recommendedBook) => {
+                return {
+                  title: recommendedBook.title,
+                  id: recommendedBook.id,
+                  image: recommendedBook.book_covers[0].URL,
+                };
+              })}
               horizontal={true}
               renderItem={({ item }) => (
-                <View style={styles.recommendedBookItem}>
+                <TouchableOpacity
+                  style={styles.recommendedBookItem}
+                  onPress={() => goToSameScreen('BookDetails', { id: item.id, title: item.title })}
+                >
                   <Image style={styles.bookThumbnail} source={{ uri: item.image }} />
-                  <Typography align="center">{item.title}</Typography>
-                </View>
+                  <Typography align="center" size={11}>
+                    {item.title}
+                  </Typography>
+                </TouchableOpacity>
               )}
             />
-          </View>
+          )}
         </ScrollView>
       </>
     );
@@ -132,6 +145,7 @@ const styles = StyleSheet.create({
   },
   sectionContent: {
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
   bookThumbnail: {
     width: 90,
@@ -139,6 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   recommendedBookItem: {
+    width: 90,
     marginHorizontal: 8,
   },
 });

@@ -13,7 +13,7 @@ const BooksToCardListParameters = (books) => {
       id: book.id,
       title: book.title,
       image: book.book_covers[0].URL,
-      onPress: () => goToScreen('BookDetails', { id: book.id, title: book.title }),
+      onPress: () => goToScreen('BookDetails', { id: book.id, booksList: books }),
     };
   });
 };

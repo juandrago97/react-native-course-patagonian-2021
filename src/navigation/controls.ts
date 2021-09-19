@@ -7,9 +7,14 @@ import {
 export const navigationRef = createNavigationContainerRef();
 
 export function goToScreen(name: string, params: object = {}) {
-  console.log('goto');
   if (navigationRef.isReady()) {
     navigationRef.dispatch(CommonActions.navigate(name, params));
+  }
+}
+
+export function goToSameScreen(name: string, params: object = {}) {
+  if (navigationRef.isReady()) {
+    navigationRef.dispatch(StackActions.push(name, params));
   }
 }
 

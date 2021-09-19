@@ -15,8 +15,8 @@ const Header = () => {
 
 const styles = StyleSheet.create({
   centerLogo: {
-    position: 'relative',
-    top: -50,
+    position: 'absolute',
+    top: 10,
     left: '46%',
   },
   backgroundFlag: {
