@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { colors } from '../../utils/theme';
