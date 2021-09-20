@@ -1,19 +1,18 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { colors } from '../../utils/theme';
 
 interface Props {
   onChange: (text: string) => void;
+  placeholder: string;
 }
 
 const SearchBar = (props: Props) => {
-  //const [textContent, setTextContent] = useState('');
   return (
     <View style={styles.searchBarContainer}>
       <TextInput
         style={styles.searchBar}
-        placeholder="Search a Book"
+        placeholder={props.placeholder}
         placeholderTextColor={colors.primaryRed}
         onChangeText={props.onChange}
       />

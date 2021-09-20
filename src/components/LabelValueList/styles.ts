@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native';
-
 const styles = StyleSheet.create({
-  mainContainer: {
-    alignItems: 'center',
+  detailList: {
     flex: 1,
-    justifyContent: 'center',
-    width: '100%',
+  },
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
-
 export default styles;

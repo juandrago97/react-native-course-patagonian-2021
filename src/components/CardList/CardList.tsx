@@ -1,39 +1,46 @@
 import React from 'react';
-import { FlatList, StyleSheet, View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import { ItemCard } from '..';
-
 export type Props = {
-  data: [];
+  data: {
+    title: string;
+    image: string;
+  };
+  horizontal?: boolean;
+  numberOfColumns?: number;
 };
-//@ts-ignore
-const renderItem = ({ item }) => {
-  return (
-    <View style={styles.card}>
-      <ItemCard title={item.title} image={item.image} onPress={item.onPress} />
-    </View>
-  );
+
+const getCardStyle = (numColumns: number) => {
+  return {
+    flex: 1 / numColumns,
+    paddingHorizontal: 5,
+    paddingVertical: 10,
+  };
 };
 
 const CardList = (props: Props) => {
-  const numColumns = 2;
-  const isHorizontal = false;
+  const renderItem = ({ item }) => {
+    return (
+      <View style={getCardStyle(props.numberOfColumns ? props.numberOfColumns : 1)}>
+        <ItemCard title={item.title} image={item.image} onPress={item.onPress} />
+      </View>
+    );
+  };
   return (
     <FlatList
       data={props.data}
       showsVerticalScrollIndicator={false}
       showsHorizontalScrollIndicator={false}
       renderItem={renderItem}
-      horizontal={isHorizontal}
-      numColumns={!isHorizontal ? numColumns : undefined}
+      horizontal={props.horizontal}
+      numColumns={!props.horizontal ? props.numberOfColumns : undefined}
     />
   );
 };
 
-const styles = StyleSheet.create({
-  card: {
-    flex: 0.5,
-    paddingHorizontal: 5,
-    paddingVertical: 10,
-  },
-});
+CardList.defaultProps = {
+  numberOfColumns: undefined,
+  horizontal: false,
+};
+
 export default CardList;

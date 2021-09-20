@@ -1,38 +1,77 @@
-import React from 'react';
-import { View } from 'react-native';
-
-import { DefaultButton, Header, Separator, Typography } from '../../components';
-import styles from './styles';
-
-import { goToScreen, resetNavigation } from '../../navigation/controls';
+import React, { useState, useEffect } from 'react';
+import { FlatList, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Header, Separator, Typography, SectionSubtitle } from '../../components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const goToExperimentalScreen = () => {
-  goToScreen('Experimental');
-};
-
-const logOut = async () => {
-  try {
-    await AsyncStorage.setItem('userLoggedInFlag', 'false');
-    resetNavigation();
-  } catch (error) {
-    console.log('Error storing userLoggedInFlag', error);
-  }
-};
-
 const HistoryScreen = () => {
+  const [viewedScreens, setViewedScreens] = useState<any[] | null>([]);
+
+  useEffect(() => {
+    const getHistoryData = async () => {
+      try {
+        const historyData = await AsyncStorage.getItem('viewedScreens');
+        if (historyData) {
+          setViewedScreens(JSON.parse(historyData));
+        } else {
+          setViewedScreens([]);
+        }
+      } catch (error) {
+        console.log('Error storing userLoggedInFlag', error);
+      }
+    };
+    getHistoryData();
+  }, [viewedScreens]);
   return (
     <>
-      <Header showBackButton={false} title="History" />
+      <Header />
+      <SectionSubtitle text="History" />
       <View style={styles.mainContainer}>
-        <Typography size={18}>History Screen</Typography>
-        <Separator size={10} />
-        <DefaultButton text="Go To Experimental Screen" onPress={goToExperimentalScreen} />
-        <Separator size={10} />
-        <DefaultButton variant="secondary" text="Log Out" onPress={logOut} />
+        <FlatList
+          style={styles.cardListContainer}
+          data={viewedScreens}
+          renderItem={renderHistoryItems}
+        />
       </View>
     </>
   );
 };
+
+const renderHistoryItems = ({ item }) => {
+  return (
+    <TouchableOpacity style={styles.rowCard}>
+      <View style={styles.rowText}>
+        <Typography>{item.title}</Typography>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  cardListContainer: {
+    backgroundColor: '#F9F9F9',
+    borderRadius: 30,
+    paddingHorizontal: 18,
+    paddingTop: 20,
+    marginHorizontal: 20,
+  },
+  wholeScreenCenter: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  rowCard: {
+    display: 'flex',
+    flexDirection: 'row',
+    borderRadius: 30,
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: 'white',
+  },
+  rowText: {
+    flex: 1,
+    flexShrink: 1,
+    marginLeft: 15,
+  },
+});
 
 export default HistoryScreen;

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { Header, CardList, SearchBar, SectionTitle } from '../../components';
+import { View, Alert, ActivityIndicator } from 'react-native';
+import { Header, CardList, SearchBar, SectionSubtitle } from '../../components';
 import { getAllBooks, getBooksByName } from '../../services';
-
 import { goToScreen } from '../../navigation/controls';
+import styles from './styles';
 
-//@ts-ignore
-const BooksToCardListParameters = (books) => {
-  //@ts-ignore
+const BooksToCardListParameters = (books: Book[]) => {
   return books.map((book) => {
     return {
       id: book.id,
@@ -19,7 +17,7 @@ const BooksToCardListParameters = (books) => {
 };
 
 const BookList = () => {
-  const [books, setBooks] = useState<Book[] | null>(null);
+  const [books, setBooks] = useState<Book[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getBooksData = async () => {
@@ -40,7 +38,7 @@ const BookList = () => {
   };
 
   const getBooksName = async (name: string) => {
-    //setLoading(true);
+    setLoading(true);
     try {
       const { success, data } = await getBooksByName(name);
       if (success) {
@@ -51,7 +49,7 @@ const BookList = () => {
     } catch (error) {
       console.log('Error getting book information', error);
     } finally {
-      //setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -59,46 +57,24 @@ const BookList = () => {
     getBooksData();
   }, []);
 
-  if (loading) {
-    return (
-      <>
-        <Header />
-        <View style={styles.wholeScreenCenter}>
-          <ActivityIndicator size="large" />
-        </View>
-      </>
-    );
-  } else {
-    return (
-      <View style={styles.body}>
-        <Header />
-        <SearchBar onChange={getBooksName} />
-        <SectionTitle />
-        <View style={styles.cardListContainer}>
-          <CardList data={BooksToCardListParameters(books)} />
-        </View>
+  return (
+    <>
+      <Header />
+      <View style={styles.sectionContent}>
+        <SearchBar onChange={getBooksName} placeholder="Search a Book" />
+        <SectionSubtitle text="BOOKS" />
+        {loading ? (
+          <View style={styles.wholeScreenCenter}>
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          <View style={styles.cardListContainer}>
+            <CardList data={BooksToCardListParameters(books)} numberOfColumns={2} />
+          </View>
+        )}
       </View>
-    );
-  }
+    </>
+  );
 };
-
-const styles = StyleSheet.create({
-  body: {
-    backgroundColor: '#E5E5E5',
-  },
-  cardListContainer: {
-    backgroundColor: '#F9F9F9',
-    borderRadius: 30,
-    paddingHorizontal: 18,
-    paddingTop: 21,
-    marginHorizontal: 20,
-    marginBottom: 420,
-  },
-  wholeScreenCenter: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default BookList;
