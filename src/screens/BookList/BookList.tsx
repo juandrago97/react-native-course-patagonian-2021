@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
+import { View, Alert, ActivityIndicator } from 'react-native';
 import { Header, CardList, SearchBar, SectionSubtitle } from '../../components';
 import { getAllBooks, getBooksByName } from '../../services';
-
 import { goToScreen } from '../../navigation/controls';
+import styles from './styles';
 
-//@ts-ignore
-const BooksToCardListParameters = (books) => {
-  //@ts-ignore
+const BooksToCardListParameters = (books: Book[]) => {
   return books.map((book) => {
     return {
       id: book.id,
       title: book.title,
       image: book.book_covers[0].URL,
-      onPress: () => goToScreen('BookDetails', { id: book.id }),
+      onPress: () => goToScreen('BookDetails', { id: book.id, title: book.title }),
     };
   });
 };
 
 const BookList = () => {
-  const [books, setBooks] = useState<Book[] | null>(null);
+  const [books, setBooks] = useState<Book[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const getBooksData = async () => {
@@ -78,25 +76,5 @@ const BookList = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  sectionContent: {
-    backgroundColor: '#E5E5E5',
-    paddingTop: 20,
-  },
-  cardListContainer: {
-    backgroundColor: '#F9F9F9',
-    borderRadius: 30,
-    paddingHorizontal: 18,
-    paddingTop: 20,
-    marginHorizontal: 20,
-    marginBottom: 280,
-  },
-  wholeScreenCenter: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default BookList;

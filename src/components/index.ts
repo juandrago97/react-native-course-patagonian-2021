@@ -8,3 +8,4 @@ export { default as SectionSubtitle } from './SectionSubtitle';
 export { default as SectionTitle } from './SectionTitle';
 export { default as DescriptionCard } from './DescriptionCard';
 export { default as LabelValueList } from './LabelValueList';
+export { default as ThumbnailList } from './ThumbnailList';

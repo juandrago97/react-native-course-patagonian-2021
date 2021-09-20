@@ -83,7 +83,7 @@ const renderItem = ({ item }) => {
   return (
     <TouchableOpacity
       style={styles.rowCard}
-      onPress={() => goToScreen('CharacterDetails', { id: item.id })}
+      onPress={() => goToScreen('CharacterDetails', { id: item.id, title: item.name })}
     >
       {item.house ? (
         <Image style={styles.rowImage} source={houseLogos[item.house]} />

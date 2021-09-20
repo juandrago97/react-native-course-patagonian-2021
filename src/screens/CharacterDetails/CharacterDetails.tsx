@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, View } from 'react-native';
 import {
   Header,
   Separator,
@@ -16,6 +7,7 @@ import {
   SectionTitle,
   LabelValueList,
   DescriptionCard,
+  ThumbnailList,
 } from '../../components';
 import { getCharacterById, getAllBooks } from '../../services';
 import { colors } from '../../utils/theme';
@@ -95,23 +87,26 @@ const CharacterDetailsScreen = ({ route }) => {
             </Typography>
           </DescriptionCard>
           <Separator />
-          <Typography variant="bold" size={14}>Books Featured In</Typography>
+          <Typography variant="bold" size={14}>
+            Books Featured In
+          </Typography>
           <Separator />
-          <FlatList
-            data={booksFeaturedIn}
-            horizontal={true}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.recommendedBookItem}
-                onPress={() => goToScreen('BookDetails', { id: item.id })}
-              >
-                <Image style={styles.bookThumbnail} source={{ uri: item.book_covers[0].URL }} />
-                <Typography align="center" size={11}>
-                  {item.title}
-                </Typography>
-              </TouchableOpacity>
-            )}
-          />
+          {booksFeaturedIn && (
+            <ThumbnailList
+              data={booksFeaturedIn.map((book) => {
+                return {
+                  text: book.title,
+                  id: book.id,
+                  image: book.book_covers[0].URL,
+                  onPress: () =>
+                    goToScreen('BookDetails', {
+                      id: book.id,
+                      title: book.title,
+                    }),
+                };
+              })}
+            />
+          )}
           <Separator size={20} />
         </ScrollView>
       </>

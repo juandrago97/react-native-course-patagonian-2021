@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  FlatList,
-  ScrollView,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import { ActivityIndicator, Alert, Image, ScrollView, View } from 'react-native';
 import {
   Header,
   Separator,
@@ -16,10 +7,12 @@ import {
   SectionTitle,
   LabelValueList,
   DescriptionCard,
+  ThumbnailList,
 } from '../../components';
 import { getBookById, getAllBooks } from '../../services';
 import { colors } from '../../utils/theme';
 import { goToSameScreen } from '../../navigation/controls';
+import styles from './styles';
 
 // @ts-ignore
 const BookDetailsScreen = ({ route }) => {
@@ -71,7 +64,7 @@ const BookDetailsScreen = ({ route }) => {
             <SectionTitle text={book.title} />
             <View style={styles.row}>
               <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
-              <View style={{ marginLeft: 13 }}>
+              <View style={styles.bookInfoContainer}>
                 <LabelValueList labelValueArray={generateLabelValueArrayFromBook(book)} />
               </View>
             </View>
@@ -88,26 +81,19 @@ const BookDetailsScreen = ({ route }) => {
           </View>
           <Separator />
           {recommendedBooks && (
-            <FlatList
-              data={recommendedBooks?.map((recommendedBook) => {
+            <ThumbnailList
+              data={recommendedBooks.map((recommendedBook) => {
                 return {
-                  title: recommendedBook.title,
+                  text: recommendedBook.title,
                   id: recommendedBook.id,
                   image: recommendedBook.book_covers[0].URL,
+                  onPress: () =>
+                    goToSameScreen('BookDetails', {
+                      id: recommendedBook.id,
+                      title: recommendedBook.title,
+                    }),
                 };
               })}
-              horizontal={true}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={styles.recommendedBookItem}
-                  onPress={() => goToSameScreen('BookDetails', { id: item.id, title: item.title })}
-                >
-                  <Image style={styles.bookThumbnail} source={{ uri: item.image }} />
-                  <Typography align="center" size={11}>
-                    {item.title}
-                  </Typography>
-                </TouchableOpacity>
-              )}
             />
           )}
         </ScrollView>
@@ -134,30 +120,5 @@ const generateLabelValueArrayFromBook = (book: Book): { label: string; value: st
     },
   ];
 };
-
-const styles = StyleSheet.create({
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-  bookCover: {
-    width: 178,
-    height: 278,
-    borderRadius: 30,
-  },
-  sectionContent: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
-  bookThumbnail: {
-    width: 90,
-    height: 90,
-    borderRadius: 30,
-  },
-  recommendedBookItem: {
-    width: 90,
-    marginHorizontal: 8,
-  },
-});
 
 export default BookDetailsScreen;

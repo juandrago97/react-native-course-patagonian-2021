@@ -1,17 +1,21 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    width: '100%',
+  row: {
+    display: 'flex',
+    flexDirection: 'row',
   },
-  wholeScreenCenter: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-    width: '100%',
+  bookCover: {
+    width: 178,
+    height: 278,
+    borderRadius: 30,
+  },
+  sectionContent: {
+    paddingHorizontal: 20,
+    paddingTop: 20,
+  },
+  bookInfoContainer: {
+    marginLeft: 13,
   },
 });
 
