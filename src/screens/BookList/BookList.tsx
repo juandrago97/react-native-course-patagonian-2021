@@ -13,7 +13,7 @@ const BooksToCardListParameters = (books) => {
       id: book.id,
       title: book.title,
       image: book.book_covers[0].URL,
-      onPress: () => goToScreen('BookDetails', { id: book.id, booksList: books }),
+      onPress: () => goToScreen('BookDetails', { id: book.id }),
     };
   });
 };
@@ -60,26 +60,29 @@ const BookList = () => {
   }, []);
 
   return (
-    <View style={styles.body}>
+    <>
       <Header />
-      <SearchBar onChange={getBooksName} />
-      <SectionSubtitle text="BOOKS" />
-      {loading ? (
-        <View style={styles.wholeScreenCenter}>
-          <ActivityIndicator size="large" />
-        </View>
-      ) : (
-        <View style={styles.cardListContainer}>
-          <CardList data={BooksToCardListParameters(books)} numberOfColumns={2} />
-        </View>
-      )}
-    </View>
+      <View style={styles.sectionContent}>
+        <SearchBar onChange={getBooksName} placeholder="Search a Book" />
+        <SectionSubtitle text="BOOKS" />
+        {loading ? (
+          <View style={styles.wholeScreenCenter}>
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          <View style={styles.cardListContainer}>
+            <CardList data={BooksToCardListParameters(books)} numberOfColumns={2} />
+          </View>
+        )}
+      </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  body: {
+  sectionContent: {
     backgroundColor: '#E5E5E5',
+    paddingTop: 20,
   },
   cardListContainer: {
     backgroundColor: '#F9F9F9',
@@ -87,7 +90,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 20,
     marginHorizontal: 20,
-    marginBottom: 350,
+    marginBottom: 280,
   },
   wholeScreenCenter: {
     flex: 1,

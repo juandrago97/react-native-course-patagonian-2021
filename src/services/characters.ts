@@ -8,7 +8,10 @@ export const getAllCharacters = async () => {
     const parsedResponse = await response.json();
 
     if (response.status === 200) {
-      serviceResponse = { success: true, data: parsedResponse };
+      const orderedReponse = parsedResponse.sort((a: Character, b: Character) =>
+        a.name.localeCompare(b.name),
+      );
+      serviceResponse = { success: true, data: orderedReponse };
     } else {
       serviceResponse = { success: false, data: parsedResponse };
     }

@@ -66,24 +66,26 @@ const BookDetailsScreen = ({ route }) => {
     return (
       <>
         <Header />
-        <ScrollView style={styles.sectionContent}>
-          <SectionTitle text={book.title} />
-          <View style={styles.row}>
-            <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
-            <View style={{ marginLeft: 13 }}>
-              <LabelValueList labelValueArray={generateLabelValueArrayFromBook(book)} />
+        <ScrollView>
+          <View style={styles.sectionContent}>
+            <SectionTitle text={book.title} />
+            <View style={styles.row}>
+              <Image style={styles.bookCover} source={{ uri: book.book_covers[0].URL }} />
+              <View style={{ marginLeft: 13 }}>
+                <LabelValueList labelValueArray={generateLabelValueArrayFromBook(book)} />
+              </View>
             </View>
+            <Separator />
+            <DescriptionCard>
+              <Typography size={12}>
+                {
+                  'Sinposis: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra erat non ligula auctor accumsan. Donec placerat urna ac nibh luctus tincidunt. Integer commodo justo eget hendrerit lacinia. Sed id neque porta, rhoncus odio quis, ornare lacus. Cras iaculis massa eget molestie mattis. Curabitur in mauris tortor. Cras et commodo magna. Integer vel vehicula massa, tempor consequat nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                }
+              </Typography>
+            </DescriptionCard>
+            <Separator size={12} />
+            <Typography variant="bold">Other Books</Typography>
           </View>
-          <Separator />
-          <DescriptionCard>
-            <Typography size={12}>
-              {
-                'Sinposis: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pharetra erat non ligula auctor accumsan. Donec placerat urna ac nibh luctus tincidunt. Integer commodo justo eget hendrerit lacinia. Sed id neque porta, rhoncus odio quis, ornare lacus. Cras iaculis massa eget molestie mattis. Curabitur in mauris tortor. Cras et commodo magna. Integer vel vehicula massa, tempor consequat nisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-              }
-            </Typography>
-          </DescriptionCard>
-          <Separator size={12} />
-          <Typography variant="bold">Other Books</Typography>
           <Separator />
           {recommendedBooks && (
             <FlatList
@@ -145,6 +147,7 @@ const styles = StyleSheet.create({
   },
   sectionContent: {
     paddingHorizontal: 20,
+    paddingTop: 20,
   },
   bookThumbnail: {
     width: 90,

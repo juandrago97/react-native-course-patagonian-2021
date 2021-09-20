@@ -3,7 +3,7 @@ import { Image, StyleSheet, View } from 'react-native';
 
 const Header = () => {
   return (
-    <View style={styles.header}>
+    <View>
       <Image
         style={styles.backgroundFlag}
         source={require('../../assets/images/gryffindor_flag.png')}
@@ -21,9 +21,6 @@ const styles = StyleSheet.create({
   },
   backgroundFlag: {
     height: 60,
-  },
-  header: {
-    marginBottom: 20,
   },
 });
 

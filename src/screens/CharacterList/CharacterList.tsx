@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, ActivityIndicator } from 'react-native';
-import { Header, CardList, SearchBar, SectionSubtitle } from '../../components';
+import {
+  View,
+  StyleSheet,
+  Alert,
+  ActivityIndicator,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import { Header, SearchBar, SectionSubtitle, Typography } from '../../components';
 import { getAllCharacters, getCharactersByName } from '../../services';
 
 import { goToScreen } from '../../navigation/controls';
 
-const CharactersToCardListParameters = (characters: Character[]) => {
-  return characters.map((character) => {
-    return {
-      id: character.id,
-      title: character.name,
-      image: '',
-      onPress: () => goToScreen('BookDetails', { id: character.id }),
-    };
-  });
-};
+import gryffindorLogo from '../../assets/images/gryffindor.jpg';
+import hufflepuffLogo from '../../assets/images/hufflepuff.jpg';
+import ravenclawLogo from '../../assets/images/ravenclaw.jpg';
+import slytherinLogo from '../../assets/images/slytherin.jpg';
 
 const CharacterListScreen = () => {
   const [characters, setCharacters] = useState<Character[] | null>(null);
@@ -58,25 +60,54 @@ const CharacterListScreen = () => {
   }, []);
 
   return (
-    <View style={styles.body}>
+    <>
       <Header />
-      <SearchBar onChange={getCharactersName} />
-      <SectionSubtitle text="CHARACTERS" />
-      {loading ? (
-        <View style={styles.wholeScreenCenter}>
-          <ActivityIndicator size="large" />
-        </View>
-      ) : (
-        <View style={styles.cardListContainer}>
-          <CardList data={CharactersToCardListParameters(characters)} numberOfColumns={2} />
-        </View>
-      )}
-    </View>
+      <View style={styles.sectionContent}>
+        <SearchBar onChange={getCharactersName} placeholder="Search a Character" />
+        <SectionSubtitle text="CHARACTERS" />
+        {loading ? (
+          <View style={styles.wholeScreenCenter}>
+            <ActivityIndicator size="large" />
+          </View>
+        ) : (
+          <View style={styles.cardListContainer}>
+            <FlatList data={characters} renderItem={renderItem} />
+          </View>
+        )}
+      </View>
+    </>
   );
 };
 
+const renderItem = ({ item }) => {
+  return (
+    <TouchableOpacity
+      style={styles.rowCard}
+      onPress={() => goToScreen('CharacterDetails', { id: item.id })}
+    >
+      {item.house ? (
+        <Image style={styles.rowImage} source={houseLogos[item.house]} />
+      ) : (
+        <View style={styles.rowImage} />
+      )}
+      <View style={styles.rowText}>
+        <Typography size={18}>{item.name}</Typography>
+        <Typography size={14}>{item.associated_groups ? item.associated_groups[0] : ''}</Typography>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+const houseLogos = {
+  Gryffindor: gryffindorLogo,
+  Ravenclaw: ravenclawLogo,
+  Slytherin: slytherinLogo,
+  Hufflepuff: hufflepuffLogo,
+};
+
 const styles = StyleSheet.create({
-  body: {
+  sectionContent: {
+    paddingTop: 20,
     backgroundColor: '#E5E5E5',
   },
   cardListContainer: {
@@ -85,12 +116,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     paddingTop: 20,
     marginHorizontal: 20,
-    marginBottom: 350,
   },
   wholeScreenCenter: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  rowCard: {
+    display: 'flex',
+    flexDirection: 'row',
+    borderRadius: 30,
+    marginVertical: 5,
+    padding: 10,
+    backgroundColor: 'white',
+  },
+  rowImage: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    backgroundColor: 'lightgrey',
+  },
+  rowText: {
+    flex: 1,
+    flexShrink: 1,
+    marginLeft: 15,
   },
 });
 

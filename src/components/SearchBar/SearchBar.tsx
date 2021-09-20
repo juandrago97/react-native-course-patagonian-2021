@@ -4,6 +4,7 @@ import { colors } from '../../utils/theme';
 
 interface Props {
   onChange: (text: string) => void;
+  placeholder: string;
 }
 
 const SearchBar = (props: Props) => {
@@ -11,7 +12,7 @@ const SearchBar = (props: Props) => {
     <View style={styles.searchBarContainer}>
       <TextInput
         style={styles.searchBar}
-        placeholder="Search a Book"
+        placeholder={props.placeholder}
         placeholderTextColor={colors.primaryRed}
         onChangeText={props.onChange}
       />
