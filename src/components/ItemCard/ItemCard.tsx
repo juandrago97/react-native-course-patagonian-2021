@@ -1,6 +1,7 @@
 import React from 'react';
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { Image, TouchableOpacity, View } from 'react-native';
 import Typography from '../Typography';
+import styles from './styles';
 
 interface Props {
   title: string;
@@ -18,25 +19,5 @@ const ItemCard = (props: Props) => {
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 30,
-    flex: 1,
-  },
-  cardImage: {
-    borderRadius: 30,
-    width: '100%',
-    height: 200,
-  },
-  cardText: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 30,
-  },
-});
 
 export default ItemCard;
